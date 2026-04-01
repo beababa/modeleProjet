@@ -1,0 +1,15 @@
+name: "stats"
+navbar:
+  left:
+    - text: "Script 1"
+      href: script1.html
+    - text: "script 2"
+      href: script2.html
+  right:
+    - icon: fa-github
+      href: https://github.com/beababa/01_stat
+output: 
+  html_document:
+    toc_float: TRUE  
+    theme: united
+    highlight: tango
