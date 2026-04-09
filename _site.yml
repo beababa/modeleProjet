@@ -3,8 +3,8 @@ navbar:
   left:
     - text: "Script 1"
       href: script1.html
-    - text: "script 2"
-      href: script2.html
+    - text: "Beatrice"
+      href: beatrice.html
   right:
     - icon: fa-github
       href: https://github.com/beababa/01_stat

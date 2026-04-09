@@ -1,0 +1,47 @@
+---
+title: "script2"
+author: "moi"
+date: "2026-04-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objet
+
+Faire des GT avec R
+
+# Librairies
+
+```{r}
+library(sf)
+library(mapsf)
+```
+
+connexion gpkg
+
+```{r}
+st_layers("projet.gpkg")
+# completion
+st_layers("proj")
+
+```
+
+```{r}
+commune <- read.csv("framaCalcCours9.csv")
+#
+commune <- commune [,c(3)]
+# filtre sur les colonnes 3
+commune <- unique(commune)
+# supprimer doublons
+# observer la 34e et la 35e lg
+commune [34]
+commune [35]
+# supprimer la 35e ligne
+commune <- commune [-35]
+```
+
+
+
