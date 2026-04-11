@@ -1,0 +1,121 @@
+---
+title: "script1"
+author: "moi"
+date: "2026-04-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Objet
+
+Présenter un premier script et l'intégration d'une image (carte)
+
+# Librairies
+
+```{r}
+library(sf)
+library(mapsf)
+```
+
+# connexion gpkg
+
+```{r}
+st_layers("projet.gpkg")
+
+commune <- read.csv("framaCalcCours9.csv")
+
+# Lecture du fichier framacacl
+
+commune <- commune [, c(3)]
+
+# Filtre sur les colonnes, ici 3
+
+commune <- unique(commune)
+
+# Supprimer les valeurs en double
+
+commune <- commune[-c(34:35)]
+
+# Observer la 34 et 35 eme colonnes
+
+commune [34]
+commune [35]
+
+commune <- commune [-35]
+
+# supprimer la 35 eme ligne
+
+```
+# Test pour nantes failed
+
+```{r}
+library(sf)
+library(happign)
+
+nantes <- get_apicarto_cadastre("44109", type = "commune")
+
+tot <- get_apicarto_cadastre(commune, type = "commune")
+
+st_write(tot, "projet.gpkg", "commune", delete_layer = T)
+```
+```{r}
+r <- get_wms_raster(nantes,
+               layer = "ORTHOIMAGERY.ORTHOPHOTOS",
+               res = 100,
+               crs = 2154,
+               rgb = TRUE,
+               filename = "data/nantes.tif",
+               overwrite = FALSE,
+               verbose = TRUE)
+```
+# Récupérer une orthophoto
+## Essai sur nantes en enlevant crs (aide chatgpt)
+
+```{r}
+
+nantes <- get_apicarto_cadastre("44109", type = "commune")
+
+r <- get_wms_raster(
+  nantes,
+  layer = "ORTHOIMAGERY.ORTHOPHOTOS",
+  res = 50,
+  rgb = TRUE,
+  filename = "nantes.tif",
+  overwrite = TRUE,
+  verbose = TRUE
+)
+
+library(terra)
+
+r <- rast("nantes.tif")
+plot(r)
+
+```
+# GT raster : Découpage de raster
+
+```{r}
+car <- st_read("base.gpkg", "carreau_manquant", quiet = TRUE)
+
+carNantes <- car[car$code == 44109, ]
+plot(carNantes$geom)
+
+cr <- crop(r, carNantes, mask = TRUE)
+plot(cr)
+
+carNantes <- st_cast(carNantes, "POLYGON")
+carNantes <- carNantes[1, ]
+
+cr <- crop(r, carNantes, mask = TRUE)
+plot(cr)
+```
+
+# GT vecteur : Centroides et tampons
+
+```{r}
+
+
+```
+
